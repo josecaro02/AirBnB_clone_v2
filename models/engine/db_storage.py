@@ -3,6 +3,7 @@
 from models.base_model import Base
 from models.state import State
 from models.city import City
+from models.user import User
 from models.amenity import Amenity
 from models.place import Place
 from models.review import Review
@@ -36,7 +37,7 @@ class DBStorage:
         session = self.__session
         cons = {}
         if not cls:
-            tables = [State, City]
+            tables = [User, State, City]
         else:
             if type(cls) == str:
                 cls = eval(cls)
