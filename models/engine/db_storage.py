@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 """SQLAlchemy will be your best friend!"""
-from os import getenv
+from os import environ
 from sqlalchemy import (create_engine)
 from sqlalchemy.orm import sessionmaker, scoped_session
 from models.base_model import Base
@@ -19,11 +19,11 @@ class DBStorage:
 
     def __init__(self):
         """ DBStorage class"""
-        user = getenv("HBNB_MYSQL_USER")
-        pw = getenv("HBNB_MYSQL_PWD")
-        ht = getenv("HBNB_MYSQL_HOST")
-        db = getenv("HBNB_MYSQL_DB")
-        environment = getenv("HBNB_ENV")
+        user = environ.get("HBNB_MYSQL_USER")
+        pw = environ.get("HBNB_MYSQL_PWD")
+        ht = environ.get("HBNB_MYSQL_HOST")
+        db = environ.get("HBNB_MYSQL_DB")
+        environment = environ.get("HBNB_ENV")
         self.__engine = create_engine('mysql+mysqldb://{}:{}@localhost/{}'
                                       .format(user, pw, ht, db),
                                       pool_pre_ping=True)

@@ -9,10 +9,10 @@ from models.city import City
 from models.amenity import Amenity
 from models.place import Place
 from models.review import Review
-from os import getenv
+from os import environ
 
 
-if getenv("HBNB_TYPE_STORAGE") == "db":
+if environ.get("HBNB_TYPE_STORAGE") == "db":
     storage = DBStorage()
 else:
     storage = FileStorage()
