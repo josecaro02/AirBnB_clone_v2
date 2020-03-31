@@ -2,8 +2,14 @@
 """SQLAlchemy will be your best friend!"""
 from os import getenv
 from sqlalchemy import (create_engine)
-from models.base_model import Base
 from sqlalchemy.orm import sessionmaker, scoped_session
+from models.base_model import Base
+from models.user import User
+from models.state import State
+from models.city import City
+from models.amenity import Amenity
+from models.place import Place
+from models.review import Review
 
 
 class DBStorage:
@@ -12,6 +18,7 @@ class DBStorage:
     __session = None
 
     def __init__(self):
+        """ DBStorage class"""
         user = getenv("HBNB_MYSQL_USER")
         pw = getenv("HBNB_MYSQL_PWD")
         ht = getenv("HBNB_MYSQL_HOST")
