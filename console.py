@@ -46,7 +46,8 @@ class HBNBCommand(cmd.Cmd):
             obj = eval("{}()".format(class_name))
             for split_args in args[1:]:
                 k , w = split_args.split("=")
-                setattr(obj, k, w);
+                if hasattr(obj, k):
+                    setattr(obj, k, w);
             obj.save()
             print("{}".format(obj.id))
         except SyntaxError:
