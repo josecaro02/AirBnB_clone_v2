@@ -16,15 +16,16 @@ class State(BaseModel, Base):
     """
     __tablename__ = 'states'
     name = Column(String(128), nullable=False)
-    DBStorage = relationship("City", backref="state",
-                             cascade="all, delete, delete-orphan")
-
-    @property
-    def cities(self):
-        """ Return the list of the city """
-        all_city = models.storage.all(City)
-        states = []
-        for cities in all_city.values():
-            if cities.state_id == self.id:
-                states.append(cities)
-        return states
+    if environ.get('HBNB_TYPE_STORAGE') == "db":
+        cities = relationship('City', backref="state",
+                              cascade="all, delete, delete-orphan")
+    else:
+        @property
+        def cities(self):
+            """ Return the list of the city """
+            all_city = models.storage.all(City)
+            states = []
+            for cities in all_city.values():
+                if cities.state_id == self.id:
+                    states.append(cities)
+            return states
