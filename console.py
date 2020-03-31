@@ -45,16 +45,15 @@ class HBNBCommand(cmd.Cmd):
             class_name = args[0]
             obj = eval("{}()".format(class_name))
             for split_args in args[1:]:
-                k , w = split_args.split("=")
+                k, w = split_args.split("=")
                 if hasattr(obj, k):
-                    setattr(obj, k, w);
+                    setattr(obj, k, w)
             obj.save()
             print("{}".format(obj.id))
         except SyntaxError:
             print("** class name missing **")
         except NameError:
             print("** class doesn't exist **")
-
 
     def do_show(self, line):
         """Prints the string representation of an instance
