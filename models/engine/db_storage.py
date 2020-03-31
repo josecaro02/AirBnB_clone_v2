@@ -1,63 +1,75 @@
 #!/usr/bin/python3
-"""SQLAlchemy will be your best friend!"""
-from os import getenv
-from sqlalchemy import (create_engine)
+"""This is the DBStorage class for AirBnB"""
 from models.base_model import Base
-from sqlalchemy.orm import sessionmaker, scoped_session
+from models.state import State
+from models.city import City
+from models.amenity import Amenity
+from models.place import Place
+from models.review import Review
+from sqlalchemy import (create_engine)
+from sqlalchemy.orm import scoped_session
+from sqlalchemy.orm import sessionmaker
+from os import environ
 
 
 class DBStorage:
-    """Private class attributes"""
+    """ Storage for DB
+    """
     __engine = None
     __session = None
 
     def __init__(self):
-        user = getenv("HBNB_MYSQL_USER")
-        pw = getenv("HBNB_MYSQL_PWD")
-        ht = getenv("HBNB_MYSQL_HOST")
-        db = getenv("HBNB_MYSQL_DB")
-        environment = getenv("HBNB_ENV")
-        self.__engine = create_engine('mysql+mysqldb://{}:{}@localhost/{}'
-                                      .format(user, pw, ht, db),
+        """Init"""
+        DUser = environ.get('HBNB_MYSQL_USER')
+        pwd = environ.get('HBNB_MYSQL_PWD')
+        hots = environ.get('HBNB_MYSQL_HOST')
+        db = environ.get('HBNB_MYSQL_DB')
+        dbEnv = environ.get('HBNB_ENV')
+        self.__engine = create_engine('mysql+mysqldb://{}:{}@{}/{}'.
+                                      format(DUser, pwd, hots, db),
                                       pool_pre_ping=True)
-        if environment == "test":
-            Base.metadata.drop_all(self.__engine)
+        if dbEnv == "test":
+            Base.metadata.drop_all(bind=self.__engine)
+
+    def all(self, cls=None):
+        """Query on the DB"""
+        session = self.__session
+        cons = {}
+        if not cls:
+            tables = [State, City]
+        else:
+            if type(cls) == str:
+                cls = eval(cls)
+            tables = [cls]
+        for row in tables:
+            query = session.query(row).all()
+            for field in query:
+                key = "{}.{}".format(type(field).__name__, field.id)
+                cons[key] = field
+        return cons
 
     def new(self, obj):
-        """Add the object to the current database session"""
-        self.__session.add(obj)
+        """ Add the new object to the session"""
+        if obj:
+            self.__session.add(obj)
 
     def save(self):
-        """Commit all changes"""
+        """ Commit all changes"""
         self.__session.commit()
 
     def delete(self, obj=None):
-        """Delete from obj from the session"""
-        self.__session.delete(obj)
-
-    def close(self):
-        """Close session"""
-        self.__session.close()
+        """ delete """
+        if obj:
+            self.__session.delete(obj)
 
     def reload(self):
-        """Reload"""
+        """ Create all tables """
         Base.metadata.create_all(self.__engine)
-        session = sessionmaker(bind=self.__engine, expire_on_commit=False)()
-        Session = scoped_session(session)
-        self.__Session = Session()
+        session_factory = sessionmaker(bind=self.__engine,
+                                       expire_on_commit=False)
+        Session = scoped_session(session_factory)
+        self.__session = Session()
 
-    def all(self, cls=None):
-        """Return a Dict"""
-        dt = {}
-        if cls:
-            cls = eval(cls)
-            for instance in self.__session.query(cls):
-                dt["{}.{}"
-                   .format(type(instance).__name__, instance.id)] = instance
-        else:
-            instances = ['User', 'Place', 'Review', 'City', 'Amenity', 'State']
-            for elem in instances:
-                for i in self.__session.query(elem):
-                    dt["{}.{}"
-                        .format(type(instance).__name__, instance.id)] = i
-        return dt
+    def close(self):
+        """ Closes sessision"""
+        self.__session.close()
