@@ -2,7 +2,7 @@
 """This is the state class"""
 import models
 from models.base_model import BaseModel, Base
-from models.citu import City
+from models.city import City
 from sqlalchemy.orm import relationship
 from sqlalchemy import String, Column
 
@@ -14,7 +14,6 @@ class State(BaseModel, Base):
     """
     __tablename__ = "states"
     name = Column(String(128), nullable=False)
-    cities = relationship("City", cascade="all, delete", backref="state")
 
     @property
     def cities(self):

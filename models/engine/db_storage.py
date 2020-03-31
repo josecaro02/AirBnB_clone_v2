@@ -49,20 +49,20 @@ class DBStorage:
     def reload(self):
         """Reload"""
         Base.metadata.create_all(self.__engine)
-        session = sessionmaker(bind=self.__engine, expire_on_commit=False)()
-        Session = scoped_session(session)
-        self.__Session = Session()
+        session_factory = sessionmaker(bind=self.__engine,
+                                       expire_on_commit=False)
+        Session = scoped_session(session_factory)
+        self.__session = Session()
 
     def all(self, cls=None):
         """Return a Dict"""
         dt = {}
         if cls:
-            cls = eval(cls)
             for instance in self.__session.query(cls):
                 dt["{}.{}"
                    .format(type(instance).__name__, instance.id)] = instance
         else:
-            instances = ['User', 'Place', 'Review', 'City', 'Amenity', 'State']
+            instances = [User, State, City]
             for elem in instances:
                 for i in self.__session.query(elem):
                     dt["{}.{}"
