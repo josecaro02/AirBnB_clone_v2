@@ -5,15 +5,20 @@ from models.review import Review
 from models.amenity import Amenity
 from models.base_model import BaseModel, Base
 from sqlalchemy import Column, String, Integer, Float, ForeignKey, Table
+from sqlalchemy import MetaData
 from sqlalchemy.orm import relationship
 from models.city import City
 from os import environ
 
-place_amenity = Table("place_amenity", metadata=Base.medata,
-                      Column("place_id", String(60), ForeignKey("places.id"),
+place_amenity = Table("place_amenity", Base.metadata,
+                      Column("place_id",
+                             String(60),
+                             ForeignKey("places.id"),
                              primary_key=True),
-                      Column("amenity_id", String(60),
-                             ForeignKey("amenities.id"), primary_key=True))
+                      Column("amenity_id",
+                             String(60),
+                             ForeignKey("amenities.id"),
+                             primary_key=True))
 
 
 class Place(BaseModel, Base):
@@ -46,9 +51,9 @@ class Place(BaseModel, Base):
 
     if environ.get('HBNB_TYPE_STORAGE') == "db":
         reviews = relationship('Review', backref="place",
-                              cascade="all, delete, delete-orphan")
-        amenities=relationship('Amenity', secondary="place_amenity",
-                               viewonly=False)
+                               cascade="all, delete, delete-orphan")
+        amenities = relationship('Amenity', secondary="place_amenity",
+                                 viewonly=False)
     else:
         @property
         def reviews(self):
@@ -66,7 +71,7 @@ class Place(BaseModel, Base):
             all_amenities = models.storage.all(Amenity)
             filter_amenities = []
             for amenity in all_amenities.values():
-                for place_amenity  in amenity_ids:
+                for place_amenity in self.amenity_ids:
                     if amenity.id == place_amenity:
                         filter_amenities.append(amenity)
             return filter_amenities
