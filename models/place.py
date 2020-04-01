@@ -7,6 +7,7 @@ from sqlalchemy import Column, String, Integer, Float, ForeignKey
 from sqlalchemy.orm import relationship
 from models.city import City
 
+
 class Place(BaseModel, Base):
     """This is the class for Place
     Attributes:
@@ -34,3 +35,17 @@ class Place(BaseModel, Base):
     latitude = Column(Float)
     longitude = Column(Float)
     amenity_ids = []
+
+    if environ.get('HBNB_TYPE_STORAGE') == "db":
+        reviews = relationship('Review', backref="place",
+                              cascade="all, delete, delete-orphan")
+    else:
+        @property
+        def reviews(self):
+            """ Return the list of the city """
+            all_reviews = models.storage.all(Review)
+            filter_reviews = []
+            for review in all_reviews.values():
+                if review.place_id == self.id:
+                    filter_reviews.append(review)
+            return filter_reviews
