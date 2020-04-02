@@ -59,3 +59,23 @@ class TestDB(unittest.TestCase):
         cur.execute(sql_2)
         result_2 = cur.fetchall()[0][0]
         self.assertEqual(result_1 - 1, result_2)
+
+    def test_create_city(self):
+        db = MySQLdb.connect(host=hots, user=DUser, passwd=pwd, db=dbase)
+        cur = db.cursor()
+        #Query count cities
+        sql_1 = "SELECT COUNT(*) FROM cities"
+        cur.execute(sql_1)
+        result_1 = cur.fetchall()[0][0]
+        # Create state
+        state = State(name="Nicoland")
+        state.save()
+        # Create city
+        city = City(name="Manquitotama", state_id=state.id)
+        city.save()
+        storage.save()
+        db.commit()
+        sql_2 = "SELECT COUNT(*) FROM cities"
+        cur.execute(sql_2)
+        result_2 = cur.fetchall()[0][0]
+        self.assertEqual(result_1 + 1, result_2)
