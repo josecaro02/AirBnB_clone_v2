@@ -42,3 +42,20 @@ class TestDB(unittest.TestCase):
         cur.execute(sql_2)
         result_2 = cur.fetchall()[0][0]
         self.assertEqual(result_1 + 1, result_2)
+
+    def test_delete(self):
+        db = MySQLdb.connect(host=hots, user=DUser, passwd=pwd, db=dbase)
+        cur = db.cursor()
+        state = State(name="Nicoland")
+        state.save()
+        storage.save()
+        sql_1 = "SELECT COUNT(ID) FROM states"
+        cur.execute(sql_1)
+        result_1 = cur.fetchall()[0][0]
+        storage.delete(state);
+        storage.save()
+        db.commit()
+        sql_2 = "SELECT COUNT(ID) FROM states"
+        cur.execute(sql_2)
+        result_2 = cur.fetchall()[0][0]
+        self.assertEqual(result_1 - 1, result_2)
