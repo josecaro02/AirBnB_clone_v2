@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
-# Install Nginx
-apt-get update
+# Setup web static configuration for server
+apt-get -y update
 apt-get install -y nginx
 mkdir -p /data/web_static/releases/test/
 mkdir -p /data/web_static/shared/
