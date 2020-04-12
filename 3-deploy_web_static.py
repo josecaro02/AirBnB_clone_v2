@@ -15,7 +15,7 @@ def do_pack():
         actual_date = date.strftime("%Y%m%d%H%M%S")
         local("tar -cvzf versions/web_static_{}.tgz web_static/".
               format(actual_date))
-        return("web_static_{}".format(actual_date))
+        return("versions/web_static_{}.tgz".format(actual_date))
     except:
         return (None)
 
@@ -50,4 +50,4 @@ def deploy():
     base_name = do_pack()
     if base_name is None:
         return (False)
-    return (do_deploy("versions/"+base_name))
+    return (do_deploy(base_name))
