@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-#Install Nginx
+# Install Nginx
 apt-get update
 apt-get install -y nginx
 mkdir -p /data/web_static/releases/test
