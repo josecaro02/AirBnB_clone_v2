@@ -8,6 +8,7 @@ env.hosts = ['35.231.235.242', '35.175.190.73']
 
 
 def do_pack():
+    """ Pack file in servers with extension .tgz """
     try:
         local("mkdir -p versions/")
         date = datetime.now()
@@ -20,6 +21,7 @@ def do_pack():
 
 
 def do_deploy(archive_path):
+    """ Deploy package in servers """
     try:
         if not(os.path.exists(archive_path)):
             return False
@@ -42,8 +44,10 @@ def do_deploy(archive_path):
     except:
         return(False)
 
+
 def deploy():
+    """ Pack and deploy package in servers """
     base_name = do_pack()
-    if not(os.path.exists("versions/" + base_name)):
+    if base_name is None:
         return (False)
-    return (do_deploy(base_name))
+    return (do_deploy("versions/"+base_name))
