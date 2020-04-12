@@ -21,6 +21,8 @@ def do_pack():
 
 def do_deploy(archive_path):
     try:
+        if not(os.path.exists(archive_path)):
+            return False
         put(archive_path, "/tmp/")
         base_name = os.path.basename(archive_path)
         file_name = os.path.splitext(base_name)[0]
