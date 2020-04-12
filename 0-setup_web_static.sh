@@ -16,3 +16,4 @@ chown -R ubuntu:ubuntu /data/
 new_txt="server_name _;\n\tlocation \/hbnb_static\/ {\n\talias \/data\/web_static\/current\/;\n\tautoindex off;\n\t}\n"
 sed -i "s/server_name _;/$new_txt/" /etc/nginx/sites-available/default
 service nginx restart
+exit 0
