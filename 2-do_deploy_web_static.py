@@ -14,20 +14,20 @@ def do_pack():
         actual_date = date.strftime("%Y%m%d%H%M%S")
         local("tar -cvzf versions/web_static_{}.tgz web_static/".
               format(actual_date))
-        return("web_static_{}".format(actual_date))
+        return("versions/web_static_{}.tgz".format(actual_date))
     except:
         return (None)
 
 
 def do_deploy(archive_path):
+    if not(os.path.exists(archive_path)):
+        return False
     try:
-        if not(os.path.exists(archive_path)):
-            return False
         put(archive_path, "/tmp/")
         base_name = os.path.basename(archive_path)
         file_name = os.path.splitext(base_name)[0]
         run("mkdir -p /data/web_static/releases/{}".format(file_name))
-        run("tar -zxf /tmp/{} -C /data/web_static/releases/{}".
+        run("tar -xzf /tmp/{} -C /data/web_static/releases/{}".
             format(base_name, file_name))
         run("rm /tmp/{}".format(base_name))
         dir_rel = "/data/web_static/releases/"
