@@ -20,6 +20,6 @@ sudo ln -sf /data/web_static/releases/test /data/web_static/current
 sudo chown -R ubuntu:ubuntu data/
 
 #Update NGINX configuration to serve /data/web_static/current/ to hbnb_static
-base_txt="root \/usr\/share\/nginx\/html"
-new_txt="root \/data\/web_static\/current"
-sudo sed -i "s/$base_text/new_txt/" /etc/nginx/sites-available/default
+base_txt="server_name _;"
+new_txt="server_name _;\n\tlocation \/hbnb_static {\n\talias  \/data\/web_static\/current;\n\t}"
+sudo sed -i "s/$base_text/$new_txt/" /etc/nginx/sites-available/default
