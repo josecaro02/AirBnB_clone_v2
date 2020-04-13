@@ -60,7 +60,7 @@ exec { 'chown_data':
 exec { 'add_default':
   require  => Exec['chown_data'],
   path     => ['/usr/bin', '/sbin', '/bin', '/usr/sbin'],
-  command  => 'sed -i "s/server_name _;/server_name _;\n\tlocation \/hbnb_static\/ {\n\talias \/data\/web_static\/current\/;\n\tautoindex off;\n\t}\n/" /etc/nginx/sites-available/default',
+  command  => 'sed -i '43i\\n\tlocation /hbnb_static/ {\n\t\talias /data/web_static/current/;\n\t\t autoindex on;\n\t}\n' /etc/nginx/sites-available/default',
   provider => 'shell',
   returns  => [0,1],
 }
