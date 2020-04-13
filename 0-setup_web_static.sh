@@ -8,5 +8,5 @@ echo "Holberton School" > /data/web_static/releases/test/index.html
 sudo ln -sf /data/web_static/releases/test/ /data/web_static/current
 sudo chown -R ubuntu:ubuntu /data/
 new_txt="server_name _;\n\tlocation \/hbnb_static\/ {\n\talias \/data\/web_static\/current\/;\n\t}\n"
-sudo sed -i "s/server_name _;/$new_txt/" /etc/nginx/sites-available/default
+sudo sed -i "43i $new_txt/" /etc/nginx/sites-available/default
 service nginx restart
