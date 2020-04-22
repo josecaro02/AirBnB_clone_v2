@@ -39,7 +39,7 @@ def n_template(n):
 
 @app.route('/number_odd_or_even/<int:n>', strict_slashes=False)
 def n_odd_even(n):
-    if n%2 == 0:
+    if n % 2 == 0:
         message = 'Number: %d is even' % n
     else:
         message = 'Number: %d is odd' % n
