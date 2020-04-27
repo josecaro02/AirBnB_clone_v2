@@ -1,82 +1,82 @@
 <!DOCTYPE html>
-<html lang="en">
-  <head>
-    <link rel="stylesheet" type="text/css" href="styles/4-common.css">
-    <link rel="stylesheet" type="text/css" href="styles/3-header.css">
-    <link rel="stylesheet" type="text/css" href="styles/3-footer.css">
-    <link rel="stylesheet" type="text/css" href="styles/6-filters.css">
-    <link type="text/css" rel="stylesheet" href="styles/8-places.css">
-    <link rel="icon" href="images/icon.png" />
-    <title>HBnB</title>
-  </head>
-  <body>
-    <header>
-      <div class="logo"></div>
-    </header>
-    <div class="container">
-      <section class="filters">
-	<div class="locations">
-	  <h3>States</h3>
-	  <h4>&nbsp</h4>
-	  <div class="popover">
-	    <ul>
+<HTML lang="en">
+  <HEAD>
+    <LINK rel="stylesheet" type="text/css" href="styles/4-common.css">
+    <LINK rel="stylesheet" type="text/css" href="styles/3-header.css">
+    <LINK rel="stylesheet" type="text/css" href="styles/3-footer.css">
+    <LINK rel="stylesheet" type="text/css" href="styles/6-filters.css">
+    <LINK type="text/css" rel="stylesheet" href="styles/8-places.css">
+    <LINK rel="icon" href="images/icon.png">
+    <TITLE>HBnB</TITLE>
+  </HEAD>
+  <BODY>
+    <HEADER>
+      <DIV class="logo"></DIV>
+    </HEADER>
+    <DIV class="container">
+      <SECTION class="filters">
+	<DIV class="locations">
+	  <H3>States</H3>
+	  <H4>&nbsp</H4>
+	  <DIV class="popover">
+	    <UL>
 	      {% for state in states %}
-	      <li>
-		<h2>{{ state.name }}</h2>
-		<ul>
+	      <LI>
+		<H2>{{ state.name }}</H2>
+		<UL>
 		  {% for city in cities %}
 		  {% if city.state_id == state.id %}
-		  <li>{{ city.name}} </li>
+		  <LI>{{ city.name}} </LI>
 		  {% endif %}
 		  {% endfor %}
-		</ul>
-	      </li>
+		</UL>
+	      </LI>
 	      {% endfor %}
-	    </ul>
-	  </div>
-	</div>
-	<div class="amenities">
-	  <h3>Amenities</h3>
-	  <h4>&nbsp</h4>
-	  <div class="popover">
-	    <ul>
+	    </UL>
+	  </DIV>
+	</DIV>
+	<DIV class="amenities">
+	  <H3>Amenities</H3>
+	  <H4>&nbsp</H4>
+	  <DIV class="popover">
+	    <UL>
 	      {% for amenity in amenities %}
-	      <li>{{ amenity.name }}</li>
+	      <LI>{{ amenity.name }}</LI>
 	      {% endfor %}
-	    </ul>
-	  </div>
-	</div>
-	<button type="button">Search</button>
-      </section>
-      <section class="places">
-	<h1>Places</h1>
+	    </UL>
+	  </DIV>
+	</DIV>
+	<BUTTON type="BUTTON">Search</BUTTON>
+      </SECTION>
+      <SECTION class="places">
+	<H1>Places</H1>
 	{% for place in places -%}
-	<article>
-	  <div class="title_box">
-	    <h2>{{ place.name }}</h2>
-	    <div class="price_by_night">${{ place.price_by_night }}</div>
-	  </div>
-	  <div class="information">
-	    <div class="max_guest">{{ place.max_guest }}</div>
-	    <div class="number_rooms">{{ place.number_rooms }} Bedroom</div>
-	    <div class="number_bathrooms">{{ place.number_bathrooms }} Bathroom</div>
-	  </div>
-	  <div class="user">
+	<ARTICLE>
+	  <DIV class="title_box">
+	    <H2>{{ place.name }}</H2>
+	    <DIV class="price_by_night">${{ place.price_by_night }}</DIV>
+	  </DIV>
+	  <DIV class="information">
+	    <DIV class="max_guest">{{ place.max_guest }}</DIV>
+	    <DIV class="number_rooms">{{ place.number_rooms }} Bedroom</DIV>
+	    <DIV class="number_bathrooms">{{ place.number_bathrooms }} Bathroom</DIV>
+	  </DIV>
+	  <DIV class="user">
 	    {% for user in users -%}
 	    {% if user.id == place.user_id -%}
-	    <b>Owner: </b>{{ user.first_name }}
+	    <B>Owner: </B>{{ user.first_name }}
 	    {%- endif %}
 	    {%- endfor %}
-	  </div>
-	  <div class="description">
+	  </DIV>
+	  <DIV class="description">
 	    {{ place.description|safe }}
-	  </div>
-	</article>
+	  </DIV>
+	</ARTICLE>
 	{%- endfor %}
-      </section>
-    </div>
-    <footer>
-      <p>Holberton School</p>
-    </footer>
-  </body>
-</html>
+      </SECTION>
+    </DIV>
+    <FOOTER>
+      <P>Holberton School</P>
+    </FOOTER>
+  </BODY>
+</HTML>
